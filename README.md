@@ -102,7 +102,57 @@ build:
     run: npm test
 
 
-#### 
+#### Add automated test for tghe application and deployment file for the workflow to deploy the app to Heroku
+# Name of the workflow
+name: Node.js CI
+
+# Specifies when the workflow should be triggered
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Defines the jobs that the workflow will execute
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build
+        run: npm run build --if-present
+
+      - name: Run tests
+        run: npm test
+
+      - name: Deploy to Heroku
+        if: github.ref == 'refs/heads/main'
+        uses: akhileshns/heroku-deploy@v3.11.0
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: git-action-mini-prj
+          heroku_email: tundeolabode20@gmail.com
+
+
+          #### Git pull and then push the files and changes to the git repositoryn
+          
+
+          
 
 
 
