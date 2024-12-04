@@ -41,8 +41,68 @@ app.listen(port, () => \{
   console.log(`App listening at http://localhost:$\{port\}`);
 \});
 
-#### 
 
+#### Push code to the repository 
+![Screenshot 2024-12-04 022547](https://github.com/user-attachments/assets/f8ce9bf6-8b7e-4999-8c04-ea9f99ae6864)
+
+
+
+#### Create a .github/workflows directory in the git repository
+![Screenshot 2024-12-04 091008](https://github.com/user-attachments/assets/89adc863-a491-47dd-bc64-a4de323a73ac)
+
+
+
+#### Add a workflow file (**node.js.yml) and copy this code into it.
+![image](https://github.com/user-attachments/assets/616c34cc-4069-467d-9001-07ca5292694d)
+# Example: .github/workflows/node.js.yml
+
+# Name of the workflow
+name: Node.js CI
+
+# Specifies when the workflow should be triggered
+on:
+# Triggers the workflow on 'push' events to the 'main' branch
+push:
+    branches: [ main ]
+# Also triggers the workflow on 'pull_request' events targeting the 'main' branch
+pull_request:
+    branches: [ main ]
+
+# Defines the jobs that the workflow will execute
+jobs:
+# Job identifier, can be any name (here it's 'build')
+build:
+    # Specifies the type of virtual host environment (runner) to use
+    runs-on: ubuntu-latest
+
+    # Strategy for running the jobs - this section is useful for testing across multiple environments
+    strategy:
+    # A matrix build strategy to test against multiple versions of Node.js
+    matrix:
+        node-version: [14.x, 16.x]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
+    uses: actions/checkout@v2
+
+    - # Sets up the specified version of Node.js
+    name: Use Node.js $\{\{ matrix.node-version \}\}
+    uses: actions/setup-node@v1
+    with:
+        node-version: $\{\{ matrix.node-version \}\}
+
+    - # Installs node modules as specified in the project's package-lock.json
+    run: npm ci
+
+    - # This command will only run if a build script is defined in the package.json
+    run: npm run build --if-present
+
+    - # Runs tests as defined in the project's package.json
+    run: npm test
+
+
+#### 
 
 
 
