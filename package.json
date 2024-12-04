@@ -1,14 +1,19 @@
 {
   "name": "git-action-mini-project",
   "version": "1.0.0",
-  "description": "The project involves setting up a simple web application (a Nodejs application) and applying CI/CD practices using GitHub Actions. This application will have basic functionality, such as serving a static web page.",
+  "description": "The project involves setting up a simple web application (a Node.js application) and applying CI/CD practices using GitHub Actions. This application will have basic functionality, such as serving a static web page.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "build": "echo \"No build step specified\"",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "empress": "^0.0.2"
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
